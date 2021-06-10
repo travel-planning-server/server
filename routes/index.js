@@ -7,7 +7,10 @@ router.post('/register', userController.postRegister)
 router.post('/login', userController.postLogin)
 
 router.get('/travels', TravelPlanningController.getTravels)
+router.get('/travels/:id', TravelPlanningController.getTravelById)
 router.post('/travels', TravelPlanningController.createTravel)
+router.put('/travels/:id', TravelPlanningController.putTravel)
+router.delete('/travels/:id', TravelPlanningController.deleteTravel)
 router.get('/province', TravelPlanningController.getProvince)
 router.get('/covid/:province', TravelPlanningController.getCovid)
 
