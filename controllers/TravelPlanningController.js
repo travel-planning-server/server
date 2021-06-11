@@ -4,13 +4,12 @@ const checkHoliday = require('../helpers/check_holiday.js')
 
 class Controller {
     static async getTravels(req, res, next) {
+        console.log(req.currentUser)
         try {      
-            req.currentUser = { id: 1 }
             const userId = req.currentUser.id      
             const travels = await TravelPlanning.findAll({
                 where: { userId }
             })
-
             return res.status(200).json(travels)
         } catch (err) {
             console.log("error getTravels", err);
@@ -53,8 +52,7 @@ class Controller {
     }
 
     static async createTravel(req, res, next) {
-        try {
-            req.currentUser = { id: 1 }            
+        try {       
             const { travelDestinationProvince, travelDestinationCity, travelDate } = req.body
             const userId = req.currentUser.id
             const newTravelPlan = await TravelPlanning.create({
