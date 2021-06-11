@@ -15,10 +15,46 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   TravelPlanning.init({
-    travelDestinationProvince: DataTypes.STRING,
-    travelDestinationCity: DataTypes.STRING,
-    travelDate: DataTypes.DATE,
-    userId: DataTypes.INTEGER
+    travelDestinationProvince: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          message: "Please Provide Travel Destination"
+        }
+      }
+    },
+    travelDestinationCity: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          message: "Please Provide Travel City"
+        }
+      }
+    },
+    travelDate: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          message: "Please Provide Travel Date"
+        }
+      }
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          message: "Please Provide UserId"
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'TravelPlanning',
