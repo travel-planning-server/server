@@ -14,6 +14,7 @@ List of Endpoints:
 | **POST** | /login | Melakukan proses login |
 | **GET** | /province | Menampilkan list provinsi seluruh indonesia |
 | **POST** | /covid/:province | Menampilkan data covid berdasarkan province |
+| **GET** | /holidays/:date | Menampilkan data hari libur berdasarkan date |
 ----------
 
 ### Menampilkan semua todo yang ada di database
@@ -358,6 +359,35 @@ List of Endpoints:
           "jumlah_sembuh": 15869,
           "jumlah_meninggal": 439,
           "jumlah_dirawat": 673
+      }
+    }
+    ```
+- **Error response** :    
+    - **Response Code** : `500`
+    - **Content** : `Internal Server Error`
+      ```json
+      {
+        "message": "error",
+        "error": "TypeError",
+      }
+      ```
+----------
+### Menampilkan data hari libur berdasarkan date
+- **URL** : `/holidays/:date`
+- **Method** : `GET`
+- **URL Param** : date
+- **Body** : none    
+- **Success response** :
+  - **Response Code** : `200`
+  - **Content** :
+    ```json
+    {
+      "message": "success",
+      "holiday": {
+          "holiday_name": "Pancasila Day",
+          "holiday_date": "2020-06-01",
+          "holiday_description": "Pancasila Day is a national holiday in Indonesia",
+          "holiday_type": "National holiday"
       }
     }
     ```
