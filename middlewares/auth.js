@@ -1,5 +1,5 @@
 const {jwtDecrypt} = require("../helpers/jwt")
-const {User} = require("../models")
+const {User, TravelPlanning} = require("../models")
 
 const authentication = (req, res, next) =>{
     try{
@@ -21,4 +21,25 @@ const authentication = (req, res, next) =>{
     } 
 }
 
-module.exports = {authentication}
+const travelAuth = (req, res, next) =>{
+    const id = req.params.id
+
+    TravelPlanning.findOne({where:{id:id}})
+        .then(travel =>{
+            if (!travel) {
+                throw {
+                    name: "TravelNotFound",
+                    message: `travel with id ${id} not found`,
+                }
+            }
+            if (travel.userId == req.currentUser.id) {
+                req.target = travel
+                next()
+            }
+            else throw {name:"AuthorizationError"}
+        }) .catch(err =>{
+            next(err)
+        })
+}
+
+module.exports = {authentication, travelAuth}

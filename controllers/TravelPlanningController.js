@@ -12,9 +12,7 @@ class Controller {
             })
             return res.status(200).json(travels)
         } catch (err) {
-            console.log("error getTravels", err);
-            return res.status(500).json({ message: "error", error: err.name})
-            // next(err)
+            next(err)
         }
     }
 
@@ -45,9 +43,7 @@ class Controller {
 
             return res.status(404).json({message: `Travel with id ${req.params.id} not found`})
         } catch (err) {
-            console.log("error getTravelById", err);
-            return res.status(500).json({ message: "error", error: err.name})
-            // next(err)
+            next(err)
         }
     }
 
@@ -64,12 +60,7 @@ class Controller {
                 data: newTravelPlan
             })
         } catch (err) {
-            console.log(err);
-            // next(err)
-            return res.status(500).json({
-                message: "error",
-                error: error.name
-            })
+            next(err)            
         }
     }
 
@@ -89,9 +80,8 @@ class Controller {
                 })
             }
             
-        } catch (err) {
-            console.log("Error putTravel", err);
-            res.status(500).json({ message: "error", error: err.name})
+        } catch (err) {            
+            next(err)
         }
     }
 
@@ -106,11 +96,7 @@ class Controller {
 
             return res.status(200).json({ message: "Success delete" })
         } catch (err) {
-            console.log("error deleteTravel", err);
-            return res.status(500).json({
-                message: "error",
-                error: err.name
-            })
+            next(err)
         }
     }
 
@@ -121,11 +107,7 @@ class Controller {
 
             return res.status(200).send(province.data)
         } catch (err) {
-            console.log(err);
-            return res.status(500).json({
-                message: "error",
-                error: err.name
-            })
+            next(err)
         }
     }
 
@@ -147,13 +129,30 @@ class Controller {
             }
 
             return res.status(200).send(response)
-        } catch (err) {
-            console.log(err);
-            return res.status(500).json({
-                message: "error",
-                error: err.name
-            })
-            // next(err)
+        } catch (err) {          
+            next(err)
+        }
+    }
+
+    static async getHoliday(req, res, next) {
+        try {
+            let newHoliday = null
+            const getHolidaysFromApi = await checkHoliday('id', req.params.date)
+
+            if (getHolidaysFromApi.length) {
+                getHolidaysFromApi.map(el => {
+                    newHoliday = {
+                        holiday_name: el.name,
+                        holiday_date: el.date.iso,
+                        holiday_description: el.description,
+                        holiday_type: el.type[0]
+                    }
+                })
+            }
+            
+            return res.status(200).json({message: "success", holiday: newHoliday})
+        } catch (error) {            
+            next(error)
         }
     }
 }
